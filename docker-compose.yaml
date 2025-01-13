@@ -1,0 +1,35 @@
+services:
+  php:
+    image: php:8.2-fpm # Используем PHP с Apache
+    container_name: php-service
+    ports:
+      - "8080:80" # Пробрасываем порт 80 контейнера на локальный порт 8080
+    volumes:
+      - .:/var/www/html # Привязываем текущую директорию к директории внутри контейнера
+    environment:
+      - APACHE_DOCUMENT_ROOT=./public # Укажите корневую директорию проекта
+    depends_on:
+      - mysql # Сначала запускается MySQL
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+        - "3307:3307"
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Установите пароль для пользователя root
+      MYSQL_DATABASE: sql7757302 # Имя создаваемой БД
+      MYSQL_USER: sql7757302 # Имя пользовательского аккаунта
+      MYSQL_PASSWORD: bTSCDNklBN # Пароль для пользовательского аккаунта
+    volumes:
+      - mysql-data:/var/lib/mysql # Храним данные MySQL в volume
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
