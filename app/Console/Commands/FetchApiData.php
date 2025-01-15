@@ -36,8 +36,8 @@ class FetchApiData extends Command
     {
         $entity = $this->argument('entity');
         $accountId = $this->option('accountId') ?? '5';
-        $dateFrom = $this->option('dateFrom') ?? Carbon::now()->subDays(7)->format('Y-m-d');
-        $dateTo = $this->option('dateTo') ?? Carbon::now()->format('Y-m-d');
+        $dateFrom = $this->option('dateFrom') ?? Carbon::now('Europe/Moscow')->format('Y-m-d');
+        $dateTo = $this->option('dateTo') ?? Carbon::now('Europe/Moscow')->format('Y-m-d');
         $apiKey = $this->option('key') ?? 'E6kUTYrYwZq2tN4QEtyzsbEBk3ie';
         $limit = $this->option('limit');
 
@@ -80,7 +80,7 @@ class FetchApiData extends Command
 
             if ($modelName === $entity) {
                 if($modelName === 'stocks'){
-                    $params['dateTo'] = $params['dateFrom'] = Carbon::now()->format('Y-m-d');
+                    $params['dateTo'] = $params['dateFrom'] = Carbon::now('Europe/Moscow')->format('Y-m-d');
                 }
                 
                 $this->info("API request to $modelName endpoint with parameters: " . json_encode($params));
@@ -91,7 +91,6 @@ class FetchApiData extends Command
                 if (!$response) {
                     continue;
                 }
-                print_r($response->json('meta'));
                 $totalPages = $response->json('meta')['last_page'];
 
                 for ($i = $params['page']; $i <= $totalPages; $i++) {
