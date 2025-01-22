@@ -22,3 +22,7 @@ app(Schedule::class)->command('fetch:api-data sales --accountId=1 --limit=500')
     ->timezone('UTC+3')   // Московское время
     ->description('Fetch sales data');
 
+app(Schedule::class)->command('backup:run')
+    ->daily(9) // Два раза в день
+    ->timezone('UTC+3')   // Московское время
+    ->description('Run backup');
